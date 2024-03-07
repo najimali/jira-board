@@ -21,8 +21,8 @@ const Board = () => {
           className="flex flex-col bg-gray-100 rounded-lg shadow-lg gap-y-2 overflow-scroll"
           key={column}
         >
-          <h2 className="text-center font-bold text-lg py-2 bg-gray-100 mt-2">
-            {column}
+          <h2 className="text-center font-semibold text-md text-gray-500 py-2 bg-gray-100 mt-2">
+            {column} - {columnTasks.length}
           </h2>
           {columnTasks.map((task) => (
             <TaskCard data={task} key={task.id}></TaskCard>

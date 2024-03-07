@@ -3,7 +3,7 @@ import { taskColumnType } from "../utils/constants";
 export const sampleTasks = [
   {
     id: "1",
-    name: "Task 1",
+    name: "This is a long task descripton, it is to test the word breaks",
     description: "Description 1",
     dueDate: new Date("2024-01-10"),
     imageUrl: "",
