@@ -12,7 +12,7 @@ const Board = () => {
     return map;
   }, {});
   return (
-    <div className="flex bg-white w-full rounded-lg gap-x-3 min-h-[80vh]">
+    <div className="w-full flex bg-white rounded-lg gap-x-3 min-h-[90vh] overflow-scroll">
       {statuses.map((status) => (
         <section
           className="flex flex-col bg-gray-100 rounded-lg shadow-lg gap-y-2 overflow-scroll min-w-80"
