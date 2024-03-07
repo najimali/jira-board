@@ -2,7 +2,6 @@ export const taskStatusType = {
   TODO: "Todo",
   IN_PROGRESS: "In Progress",
   DONE: "Done",
-  BLOCKER: "Blocker",
 };
 
 export const prefixes = {

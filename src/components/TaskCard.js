@@ -2,32 +2,40 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarDays,
+  faDeleteLeft,
   faSquareCheck,
   faStar,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { formatDateTo_DD_Month } from "../utils/helper";
 import { taskStatusType } from "../utils/constants";
 import { useDispatch } from "react-redux";
-import { updateTask } from "../reducer/taskSlice";
+import { deleteTask, updateTask } from "../reducer/taskSlice";
 import NewTaskModal from "./NewTaskModal";
 
 const TaskCard = ({ data }) => {
   const { id, name, dueDate, isFavorited, status } = data;
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleOpenModal = () => { 
-    
-    setIsModalOpen(true)};
-  const handleCloseModal = (event) => { 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCloseModal = (event) => {
     event.stopPropagation();
     setIsModalOpen(false);
   };
   const handleSaveTask = (newTask) => {
     dispatch(updateTask(newTask));
   };
+
+  const handleDeleteTask = (event) => {
+    event.stopPropagation();
+    dispatch(deleteTask(id))
+  }
   return (
-    <div className="bg-white w-80 flex flex-col rounded-lg shadow-lg py-4 px-6 min-h-20 border border-gray-200 hover:bg-blue-50 hover:cursor-pointer transition-all duration-200 ease-in-out"
-    onClick={() => handleOpenModal()}
+    <div
+      className="bg-white w-80 flex flex-col rounded-lg shadow-lg py-4 px-6 min-h-20 border border-gray-200 hover:bg-blue-50 hover:cursor-pointer transition-all duration-200 ease-in-out"
+      onClick={() => handleOpenModal()}
     >
       <NewTaskModal
         isOpen={isModalOpen}
@@ -35,8 +43,18 @@ const TaskCard = ({ data }) => {
         onSave={handleSaveTask}
         existingTaskId={id}
       />
+      <NewTaskModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSave={handleSaveTask}
+        existingTaskId={id}
+      />
       <p
-        className={`text-lg font-medium break-words ${status === taskStatusType.DONE ? 'line-through text-gray-400' : 'text-gray-800'}`}
+        className={`text-lg font-medium break-words ${
+          status === taskStatusType.DONE
+            ? "line-through text-gray-400"
+            : "text-gray-800"
+        }`}
       >
         {name}
       </p>
@@ -55,9 +73,14 @@ const TaskCard = ({ data }) => {
           ></FontAwesomeIcon>
           {`${id}`}
         </div>
-        {isFavorited && (
-          <FontAwesomeIcon icon={faStar} style={{ color: "#3ec50d" }} />
-        )}
+        <div>
+          {isFavorited && (
+            <FontAwesomeIcon icon={faStar} style={{ color: "#3ec50d" }} />
+          )}
+          <FontAwesomeIcon icon={faTrash} size="sm" className="ml-2"
+          onClick={(event) => handleDeleteTask(event)}
+          />
+        </div>
       </div>
     </div>
   );

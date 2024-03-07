@@ -12,6 +12,7 @@ const defaultTask = {
 const NewTaskModal = ({ isOpen, onClose, onSave , existingTaskId = ''}) => {
   const [task, setTask] = useState(defaultTask)
   const existingTasks = useSelector(store => store.taskSlice.tasks)
+  const statuses = useSelector(store => store.boardSlice.statuses)
   const totalTask = existingTasks.length
   useEffect(() => {
     if(existingTaskId){
@@ -63,9 +64,9 @@ const NewTaskModal = ({ isOpen, onClose, onSave , existingTaskId = ''}) => {
               value={task.status}
               onChange={(e) => setTask({ ...task, status : e.target.value})}
             >
-              {Object.entries(taskStatusType).map(([_, statusType]) => (
-                <option key={statusType} value={statusType}>
-                  {statusType}
+              {statuses.map((status) => (
+                <option key={status} value={status}>
+                  {status}
                 </option>
               ))}
             </select>

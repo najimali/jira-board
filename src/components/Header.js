@@ -1,30 +1,49 @@
-import React, { useId, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTask } from "../reducer/taskSlice";
 import NewTaskModal from "./NewTaskModal";
+import StatusModal from "./StatusModal";
+import { addStatus } from "../reducer/boardSlice";
 
 const Header = () => {
-  const dispatch = useDispatch((store) => store.tasks);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const handleOpenTaskModal = () => setIsTaskModalOpen(true);
+  const handleCloseTaskModal = () => setIsTaskModalOpen(false);
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
+  const handleOpenStatusModal = () => setIsStatusModalOpen(true);
+  const handleCloseStatusModal = () => setIsStatusModalOpen(false);
 
-  const handleSaveTask = (newTask) => {
-    dispatch(addTask(newTask));
+  const handleSaveTask = (task) => {
+    dispatch(addTask(task));
+  };
+  const handleSaveStatus = (status) => {
+    dispatch(addStatus(status));
   };
   return (
-    <div className="w-full flex justify-start">
+    <div className="w-full flex justify-between">
       <button
         className="text-white font-bold bg-blue-600 p-2 rounded-lg"
-        onClick={() => handleOpenModal()}
+        onClick={() => handleOpenTaskModal()}
       >
-        Create
+        Create Task
+      </button>
+      <button
+        className="text-white font-bold bg-green-600 p-2 rounded-lg"
+        onClick={() => handleOpenStatusModal()}
+      >
+        Create Status
       </button>
       <NewTaskModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
+        isOpen={isTaskModalOpen}
+        onClose={handleCloseTaskModal}
         onSave={handleSaveTask}
+      />
+      <StatusModal
+        isOpen={isStatusModalOpen}
+        onClose={handleCloseStatusModal}
+        onSave={handleSaveStatus}
       />
     </div>
   );
