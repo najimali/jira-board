@@ -1,13 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import Board from "./components/Board";
+import Header from "./components/Header";
 
 function App() {
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-    </div>
+    <main className="w-screen flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center p-4 gap-y-2">
+        <Header></Header>
+        <Board></Board>
+      </div>
+    </main>
   );
 }
 
