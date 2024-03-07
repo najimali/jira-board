@@ -12,11 +12,16 @@ export const taskSlice = createSlice({
     addTask: (state, action) => {
       state.tasks.push(action.payload);
     },
+    updateTask: (state, action) => {
+      const existingId = action.payload.id;
+      const index = state.tasks.findIndex(({id}) => id === existingId);
+      if (index !== -1) {
+        state.tasks[index] = action.payload;
+      }
+    },
   },
 });
 
-// Export actions
-export const { addTask } = taskSlice.actions;
+export const { addTask, updateTask } = taskSlice.actions;
 
-// Export reducer
 export default taskSlice.reducer;

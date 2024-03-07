@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarDays,
@@ -6,14 +6,37 @@ import {
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { formatDateTo_DD_Month } from "../utils/helper";
-import { taskColumnType } from "../utils/constants";
+import { taskStatusType } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { updateTask } from "../reducer/taskSlice";
+import NewTaskModal from "./NewTaskModal";
 
 const TaskCard = ({ data }) => {
-  const { id, name, dueDate, isFavorited, column } = data;
+  const { id, name, dueDate, isFavorited, status } = data;
+  const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpenModal = () => { 
+    
+    setIsModalOpen(true)};
+  const handleCloseModal = (event) => { 
+    event.stopPropagation();
+    setIsModalOpen(false);
+  };
+  const handleSaveTask = (newTask) => {
+    dispatch(updateTask(newTask));
+  };
   return (
-    <div className="bg-white w-80 flex flex-col rounded-lg shadow-lg py-4 px-6 min-h-20 border border-gray-200 hover:bg-blue-50 hover:cursor-pointer transition-all duration-200 ease-in-out">
+    <div className="bg-white w-80 flex flex-col rounded-lg shadow-lg py-4 px-6 min-h-20 border border-gray-200 hover:bg-blue-50 hover:cursor-pointer transition-all duration-200 ease-in-out"
+    onClick={() => handleOpenModal()}
+    >
+      <NewTaskModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSave={handleSaveTask}
+        existingTaskId={id}
+      />
       <p
-        className={`text-lg font-medium text-gray-800 break-words ${column === taskColumnType.DONE ? 'line-through text-gray-400' : ''}`}
+        className={`text-lg font-medium break-words ${status === taskStatusType.DONE ? 'line-through text-gray-400' : 'text-gray-800'}`}
       >
         {name}
       </p>
@@ -30,7 +53,7 @@ const TaskCard = ({ data }) => {
             className="mr-1 text-blue-600"
             icon={faSquareCheck}
           ></FontAwesomeIcon>
-          {`TAS-${id}`}
+          {`${id}`}
         </div>
         {isFavorited && (
           <FontAwesomeIcon icon={faStar} style={{ color: "#3ec50d" }} />

@@ -1,10 +1,13 @@
-export const taskColumnType = {
+export const taskStatusType = {
   TODO: "Todo",
   IN_PROGRESS: "In Progress",
   DONE: "Done",
   BLOCKER: "Blocker",
 };
 
+export const prefixes = {
+  NEW_TASK : "TAS-"
+}
 export const monthNames = [
   "Jan",
   "Feb",
