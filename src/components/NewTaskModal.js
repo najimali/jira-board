@@ -21,7 +21,7 @@ const NewTaskModal = ({ isOpen, onClose, onSave , existingTaskId = ''}) => {
       );
       setTask(existingTask)
     }
-  },[isOpen])
+  },[existingTaskId])
   const handleSubmit = (event) => {
     event.preventDefault();
     onSave({
