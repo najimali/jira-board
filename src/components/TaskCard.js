@@ -11,7 +11,7 @@ import { taskStatusType } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { deleteTask, updateTask } from "../reducer/taskSlice";
 import NewTaskModal from "./NewTaskModal";
-
+import { useDrag } from 'react-dnd';
 const TaskCard = ({ data }) => {
   const { id, name, dueDate, isFavorited, status } = data;
   const dispatch = useDispatch();
@@ -31,10 +31,20 @@ const TaskCard = ({ data }) => {
     event.stopPropagation();
     dispatch(deleteTask(id))
   }
+
+  const [{ isDragging }, dragRef] = useDrag(() => ({
+    type: "TASK_CARD",
+    item: { id: data.id, status: data.status },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
   return (
     <div
+      ref={dragRef}
       className="bg-white w-80 flex flex-col rounded-lg shadow-lg py-4 px-6 min-h-20 border border-gray-200 hover:bg-blue-50 hover:cursor-pointer transition-all duration-200 ease-in-out"
       onClick={() => handleOpenModal()}
+      style={{ opacity: isDragging ? 0.5 : 1 }}
     >
       <NewTaskModal
         isOpen={isModalOpen}

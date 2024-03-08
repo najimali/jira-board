@@ -8,3 +8,13 @@ export const formatDateTo_DD_Month = (dueDate) => {
   const monthName = monthNames[monthIndex];
   return `${day} ${monthName}`;
 };
+
+export const taskComparator = (taskA, taskB) => {
+  if (taskA.isFavorited && !taskB.isFavorited) {
+    return -1; // Task A comes before Task B
+  }
+  if (!taskA.isFavorited && taskB.isFavorited) {
+    return 1; // Task B comes before Task A
+  }
+  return taskA.name.localeCompare(taskB.name);
+};
